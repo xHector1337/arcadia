@@ -1,1 +1,1 @@
-# Welcome to the Arcadia, The Land of Fun!
+# Welcome to The Arcadia, The Land of Fun!
