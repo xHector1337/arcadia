@@ -2,7 +2,7 @@
 import random
 
 print("Welcome to the WordGuesser game!\nChoose a difficulty and start! You'll have attempts depend on the difficulty you choose.\nThe Word list contains adjectives, nouns and infinitive verbs without 'to'(There is not any special names.).\nGood luck!")
-words = ["cat","dog","hack","code","house","white","blue","red","llama","eagle","falcon","man","woman","brother","sister","house","street","state","preload","load","code","congratulation","abandon","acquire","addict","rock","roll","punk","hard","agreement","aircraft","ship","learn","holiday","mister","sir","school","walk","meet","again","know","where","sunny","day","memory","moon","lake","live","die","death","cemetery","keyboard","mouse","computer","run","justice","city","hall","angel","decision","result","laptop"]
+words = ["cat","dog","hack","code","house","white","blue","hear","red","pink","purple","consciousness","llama","eagle","falcon","man","woman","brother","sister","house","street","state","preload","load","code","congratulation","abandon","acquire","addict","rock","roll","punk","hard","agreement","aircraft","ship","learn","holiday","mister","sir","school","walk","meet","again","heart","know","where","sun","sunny","day","memory","moon","lake","live","die","death","cemetery","keyboard","mouse","computer","emotion","brain","run","justice","city","hall","angel","decision","result","laptop"]
 # I heard those while listening to music :')
 
 def randomChoice(length):
@@ -10,6 +10,22 @@ def randomChoice(length):
     while len(word) != length:
         word = random.choice(words)
     return word
+
+def wordChecker(word,attempts):
+    print(f"The word is {'*'*len(word)}")
+    user = str(input("Enter your guess!\n"))
+    while user != str(word) and int(attempts) > 0:
+        attempts -= 1
+        found = str(word).find(user)
+        print(f"The word is {'*'*len(word)}")
+        print(f"You have {attempts} remaining attempts!")
+        if found != -1:
+            print(f"You're close, {found+1}. character is '{word[found]}'")
+            attempts -= 1
+            print(f"You have {attempts} remaining attempts!")
+        wordChecker(word,attempts)                           
+                    
+        
 
 def menu():
     attempts = 0
@@ -53,5 +69,12 @@ def menu():
                 word = randomChoice(13)
         case _:
             print("Please enter a right number!")
-            menu()       
-    print(f"The word's length is {len(word)} and you have {attempts} attempts! Good luck.") 
+            menu()
+    if len(word) == 0:
+        print("You got an error! Please enter your choice again!")
+        menu()           
+    print(f"The word's length is {len(word)} and you have {attempts} attempts! Good luck.")
+    wordChecker(word,attempts)                              
+                             
+                               
+                        
