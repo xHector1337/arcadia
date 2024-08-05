@@ -1,8 +1,8 @@
 # Arcadia: The Land Of Fun!
 import random
 
-print("Welcome to the WordGuesser game!\nChoose a difficulty and start! You'll have attempts depend on the difficulty you choose.\nThe Word list contains adjectives, nouns and infinitive verbs without 'to'(There is not any special names.).\nGood luck!")
-words = ["cat","dog","hack","code","house","white","blue","hear","red","pink","purple","consciousness","llama","eagle","falcon","man","woman","brother","sister","house","street","state","preload","load","code","congratulation","abandon","acquire","addict","rock","roll","punk","hard","agreement","aircraft","ship","learn","holiday","mister","sir","school","walk","meet","again","heart","know","where","sun","sunny","day","memory","moon","lake","live","die","death","cemetery","keyboard","mouse","computer","emotion","brain","run","justice","city","hall","angel","decision","result","laptop"]
+print("Welcome to the WordGuesser game!\nChoose a difficulty and start! You'll have attempts depend on the difficulty you choose.\nThe Word list contains adjectives, nouns and infinitive verbs without 'to'(There is not any special names!)\nInstead of guessing the whole word, try the find letters in the word by sending letters!\nGood luck!")
+words = ["cat","dog","hack","code","eye","face","house","white","blue","black","hear","red","pink","purple","consciousness","llama","eagle","falcon","man","woman","brother","sister","house","street","state","preload","load","code","congratulation","abandon","acquire","addict","rock","roll","punk","hard","agreement","aircraft","ship","learn","holiday","mister","sir","school","walk","meet","again","heart","know","where","sun","sunny","day","memory","moon","lake","live","die","death","cemetery","keyboard","mouse","computer","emotion","brain","run","word","justice","city","hall","angel","decision","result","laptop","absorb","destroy","people","fall","way","cowboy","cow","sea","see","light","flash","make","smile","snake","eater","solid","youth","school","homelander","deep","butcher","market","super"]
 # I heard those while listening to music :')
 
 def randomChoice(length):
@@ -12,18 +12,21 @@ def randomChoice(length):
     return word
 
 def wordChecker(word,attempts):
-    print(f"The word is {'*'*len(word)}")
+    if int(attempts) == 0:
+        print(f"Oh, you are out of luck. The word was '{word}'")
+        exit()
     user = str(input("Enter your guess!\n"))
-    while user != str(word) and int(attempts) > 0:
-        attempts -= 1
+    while user != str(word):
         found = str(word).find(user)
-        print(f"The word is {'*'*len(word)}")
-        print(f"You have {attempts} remaining attempts!")
         if found != -1:
             print(f"You're close, {found+1}. character is '{word[found]}'")
             attempts -= 1
             print(f"You have {attempts} remaining attempts!")
-        wordChecker(word,attempts)                           
+        elif found == -1:
+            attempts -=1 
+            print(f"Wrong guess!\nThe word is {'*'*len(word)}\nYou have {attempts} remaining attempts!")
+        wordChecker(word,attempts)
+    print(f"You have found it!")                             
                     
         
 
@@ -72,9 +75,8 @@ def menu():
             menu()
     if len(word) == 0:
         print("You got an error! Please enter your choice again!")
-        menu()           
+        menu()   
+    print(f"The word is {'*'*len(word)}")        
     print(f"The word's length is {len(word)} and you have {attempts} attempts! Good luck.")
-    wordChecker(word,attempts)                              
-                             
-                               
-                        
+    wordChecker(word,attempts)
+menu()
