@@ -2,7 +2,7 @@
 import random
 
 print("Welcome to the WordGuesser game!\nChoose a difficulty and start! You'll have attempts depend on the difficulty you choose.\nThe Word list contains adjectives, nouns and infinitive verbs without 'to'(There is not any special names!)\nGood luck!")
-words = ["cat","dog","hack","code","eye","redemption","bandana","freedom","game","face","house","white","blue","black","hear","red","pink","purple","consciousness","llama","eagle","falcon","man","woman","brother","sister","house","street","state","preload","load","code","congratulation","abandon","acquire","addict","rock","roll","punk","hard","agreement","aircraft","ship","learn","holiday","mister","sir","school","walk","meet","again","heart","know","where","sun","sunny","day","memory","moon","lake","live","die","death","cemetery","keyboard","mouse","computer","emotion","brain","run","word","justice","city","hall","angel","decision","result","laptop","absorb","destroy","people","fall","way","cowboy","cow","sea","see","light","flash","make","old","smile","snake","eater","solid","youth","school","homelander","deep","butcher","market","super","good","bad","ugly","star","glaze","glance","perfect","winter","jungle","evil","fire","succession","title","liquid","theme","come","handkerchief","phone","console","mask","guess","empire","stay","interstellar","kitty","puppy"]
+words = ["cat","dog","hack","code","eye","redemption","bandana","wise","freedom","game","face","house","white","blue","black","hear","red","pink","purple","wind","consciousness","llama","eagle","falcon","man","woman","brother","sister","life","paint","angry","river","house","street","state","preload","load","code","congratulation","abandon","acquire","addict","rock","roll","punk","hard","agreement","aircraft","ship","learn","holiday","mister","sir","school","walk","meet","again","heart","teacher","mom","dad","father","","know","where","sun","sunny","day","memory","moon","lake","live","die","death","cemetery","keyboard","mouse","computer","emotion","brain","run","word","justice","city","hall","angel","despicable","decision","result","laptop","absorb","destroy","people","fall","way","cowboy","cow","drive","driver","sea","see","light","flash","make","old","smile","snake","eater","solid","youth","school","homelander","deep","butcher","monkey","sloth","market","super","good","bad","ugly","star","glaze","glance","perfect","winter","jungle","boy","evil","fire","succession","title","liquid","theme","come","handkerchief","happy","girl","phone","console","mask","guess","empire","stay","ocean","climb","jump","love","interstellar","kitty","sell","world","puppy","west","north","east","south","soap","have","take","personal","alone","care","tired"]
 # I heard those while listening to music :')
 
 def randomChoice(difficulty):
@@ -15,19 +15,30 @@ def randomChoice(difficulty):
             while len(word) != 4 and len(word) != 5 and len(word) != 6:
                 word = random.choice(words)
         case "hard":
-            while len(word) != 7 and len(word) != 8 and len(word) != 9 and len(word) != 10 and len(word) != 11 and len(word) != 12 and len(word) != 13 and len(word) != 14:
+            while len(word) < 7:
                 word = random.choice(words)                 
     return word
 
-def wordChecker(word,attempts):
+def wordChecker(word,attempts,hints):
     if int(attempts) == 0:
         print(f"Oh, you are out of luck. The word was '{word}'")
         exit()
     user = str(input("Enter your guess!\n"))
+    if user == "abcdefghijklmnopqrstuvwxyz" or user == "abcdefghijklmnopqrstuvwxyz".upper():
+        print("Loser!")
+        exit()
+    if user == "hint" and hints > 0:
+        hints -=1
+        h = random.randint(0,(len(word)-1))
+        print(f"There you go, here is your hint:\n{h+1}. character of the word is {word[h]}")
+        wordChecker(word,attempts,hints)
+    elif hints == 0 and user == "hint":
+        print("You don't have any hints left!")
+        wordChecker(word,attempts,hints)    
     if user == word:
             print("You have found it!")
             exit()
-    if len(user) > 0:
+    if len(user) > 0 and user != "hint":
         attempts -= 1
         count = 0
         for i in user:
@@ -36,14 +47,15 @@ def wordChecker(word,attempts):
                 found = str(word).find(i)
                 print(f"You're close, {found+1}. character is '{word[found]}'")
         if count == 0:
-            print(f"Wrong guess!\nThe word is {'*'*len(word)}\nYou have {attempts} remaining attempts!")
+            print(f"Wrong guess!\nThe word is {'*'*len(word)}\nYou have {attempts} remaining attempts and {hints} hints!\n")
         else:
-            print(f"You have {attempts} remaining attempts!")    
-        wordChecker(word,attempts)               
+            print(f"You have {attempts} remaining attempts and {hints} hints!")    
+        wordChecker(word,attempts,hints)               
         
 
 def menu():
     attempts = 0
+    hints = 3
     word = ""
     choice = str(input("Choose your difficulty level:\n\t1 - Easy\n\t2 - Medium\n\t3 - Hard\n"))
     match choice:
@@ -63,6 +75,6 @@ def menu():
         print("You got an error! Please enter your choice again!")
         menu()   
     print(f"The word is {'*'*len(word)}")        
-    print(f"The word's length is {len(word)} and you have {attempts} attempts! Good luck.")
-    wordChecker(word,attempts)
+    print(f"The word's length is {len(word)}. You have {attempts} attempts and {hints} hints!\nYou can use your hints by typing 'hint'\nGood luck.")
+    wordChecker(word,attempts,hints)
 menu()
