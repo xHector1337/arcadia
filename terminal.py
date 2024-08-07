@@ -1,7 +1,6 @@
 import re
 import os
 import requests
-import json
 
 users = ["root","hector"]
 def login():
@@ -19,16 +18,21 @@ def login():
     print("Bad luck")
     exit()
 def whoami(user):
-    echo(user)    
+    echo(user)
+def rm(arg):
+    if arg != "terminal.py" and arg != "wordGuesser.py":
+        os.remove(arg)
+    else:
+        echo("Choose different thing to remove!")           
 def su():
     terminal()
 def wget(url,output="none"):
     req = requests.get(url)
     if output == "none":
-        print(req.text)
+        print(req.content)
     else:
-        with open(output,"w") as f:
-            f.write(req.text)
+        with open(output,"wb") as f:
+            f.write(req.content)
             f.close()        
 def foxsay():
     a = r"""
@@ -50,29 +54,23 @@ def clear():
         os.system("cls")
     else:
         os.system("clear")
-def ls():
-    try:
-        with open("files.json","r") as f:
-            fileTree = json.load(f)
-            files = fileTree.get("files",{})
-            for _,info in files.items():
-                print(f"{info['name']}\t Owner:{info['user']}")
-    except Exception as e:
-        echo(f"An error occured {e}")
+def ls(arg=os.getcwd()):
+    directory = os.listdir(arg)
+    print(arg)
+    for i in directory:
+        print(f"""
+              |
+              |
+              |
+               --- {i}""")
 
 def cat(arg):
     try:
-        with open("files.json","r") as f:
-            fileTree = json.load(f)
-            files = fileTree.get("files",{})
-            if arg in files:
-                echo(files[arg]['content'])
-            else:
-                echo("File doesn't exist!")                        
-    
+        with open(arg,mode="rb") as f:
+            print(f.read())
+            f.close()                
     except Exception as e:
-        echo(f"There is an error: {e}")                 
-        
+        echo(f"There is an error! {e}")    
 def parser(arg,username):
     if '&&' in arg and "'&&'" not in arg:
         line = arg.split(' && ')
@@ -94,19 +92,35 @@ def parser(arg,username):
             elif "foxsay" in i and "'foxsay'" not in i:
                 foxsay()
             elif "wget" in i and "'wget'" not in i:
-                match = re.search(r"'([^']+)'",i)
-                if match:
-                    wget(match.group(1))
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    wget(match[0],match[1])
+                elif len(match) == 1:
+                    wget(match[0])
+                else:
+                    echo("Usage whet 'url' (optional: 'outputFile')")        
             elif "wget" in i and "'" not in i:
-                echo("Usage: wget 'url'")
+                echo("Usage: wget 'url' (optional: 'outputFile')")
             elif "ls" in i and "'ls'" not in i:
-                ls()
+                match = re.search(r"'([^']+)",i)
+                if match:
+                    ls(match.group(1))
+                else:
+                    ls()    
             elif "cat" in i and "'cat'" not in i:
                 match = re.search(r"'([^']+)'",i)    
                 if match:
                     cat(match.group(1))
             elif "cat" in i and "'" not in i:
-                echo("Usage: cat 'file'")                                    
+                echo("Usage: cat 'file'") 
+            elif "rm" in i and "'rm'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    rm(match.group(1))
+                else:
+                    echo("Usage: rm 'file'")
+            elif "rm" in i and "'" not in i:
+                echo("Usage: rm 'file'")                                                   
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -128,19 +142,33 @@ def parser(arg,username):
         elif "foxsay" in arg and "'foxsay'" not in arg:
             foxsay()
         elif "wget" in arg and "'wget'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                wget(match[0],match[1])
+            elif len(match) == 1:
+                wget(match[0])
+            else:
+                echo("Usage: wget 'url' (optional: 'outputFile')")                        
+        elif "wget" in arg and "'" not in arg:
+            echo("Usage: wget 'url' (optional: 'outputFile')")
+        elif "ls" in arg and "'ls'" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
-                wget(match.group(1))            
-        elif "wget" in arg and "'" not in arg:
-            echo("Usage: wget 'url'")
-        elif "ls" in arg and "'ls'" not in arg:
-            ls()
+                ls(match.group(1))
+            else:
+                ls()    
         elif "cat" in arg and "'cat'" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
                 cat(match.group(1))
         elif "cat" in arg and "'" not in arg:
             echo("Usage: cat 'file'")            
+        elif "rm" in arg and "'rm'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                rm(match.group(1))
+        elif "rm" in arg and "'" not in arg:
+            echo("Usage: rm 'file'")        
         else:
             echo("An error occured, undefined command found!")                                                          
 def terminal():
