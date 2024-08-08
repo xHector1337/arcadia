@@ -1,6 +1,8 @@
 import re
 import os
 import requests
+import wordGuesser
+
 
 users = ["root","hector"]
 def login():
@@ -17,6 +19,22 @@ def login():
             print("Try again!")        
     print("Bad luck")
     exit()
+def write(arg,content):
+    try:
+        with open(arg,"wb") as f:
+            f.write(content.encode())
+            f.close()
+    except Exception as e:
+        print("An error occured:",e)
+def append(arg,content):
+    try:
+        with open(arg,"ab") as f:
+            f.write(content.encode())
+            f.close()
+    except Exception as e:
+        print(f"An error occured: {e}")                        
+def  wordguess():
+    wordGuesser.menu()      
 def whoami(user):
     echo(user)
 def rm(arg):
@@ -67,7 +85,7 @@ def ls(arg=os.getcwd()):
 def cat(arg):
     try:
         with open(arg,mode="rb") as f:
-            print(f.read())
+            print(f.read().decode('utf-8'))
             f.close()                
     except Exception as e:
         echo(f"There is an error! {e}")    
@@ -120,7 +138,23 @@ def parser(arg,username):
                 else:
                     echo("Usage: rm 'file'")
             elif "rm" in i and "'" not in i:
-                echo("Usage: rm 'file'")                                                   
+                echo("Usage: rm 'file'")
+            elif "write" in i and "'write'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    write(match[0],match[1])
+                else:
+                    echo("Usage write 'file' 'content'")
+            elif "write" in i and "'" not in i:
+                echo("Usage: write 'file' 'content'")                                                                   
+            elif "append" in i and "'append'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    append(match[0],match[1])
+                else:
+                    echo("Usage: append 'file' 'content'")
+            elif "wordguess" in i and "'wordguess'" not in i:
+                wordguess()            
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -168,9 +202,29 @@ def parser(arg,username):
             if match:
                 rm(match.group(1))
         elif "rm" in arg and "'" not in arg:
-            echo("Usage: rm 'file'")        
+            echo("Usage: rm 'file'")
+        elif "write" in arg and "'write'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+             write(match[0],match[1])
+            else:
+                echo("Usage: write 'file' 'content'")
+        elif "write" in arg and "'" not in arg:
+            echo("Usage: write 'file' 'content'")
+        elif "append" in arg and "'append'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                append(match[0],match[1])
+            else:
+                echo("Usage: append 'file' 'content'")
+        elif "append" in arg and "'" not in arg:
+            echo("Usage: append 'file' 'content'")                                     
+        elif "wordguess" in arg and "'worguess'" not in arg:
+            wordguess()
         else:
-            echo("An error occured, undefined command found!")                                                          
+            echo("An error occured, undefined command found!")
+       
+                                                                      
 def terminal():
     username = login()
     user = ""
