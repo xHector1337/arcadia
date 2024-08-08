@@ -2,6 +2,7 @@ import re
 import os
 import requests
 import wordGuesser
+import time
 
 
 users = ["root","hector"]
@@ -21,15 +22,15 @@ def login():
     exit()
 def write(arg,content):
     try:
-        with open(arg,"wb") as f:
-            f.write(content.encode())
+        with open(arg,"w+") as f:
+            f.write(content.replace('\\n','\n'))
             f.close()
     except Exception as e:
         print("An error occured:",e)
 def append(arg,content):
     try:
-        with open(arg,"ab") as f:
-            f.write(content.encode())
+        with open(arg,"a+") as f:
+            f.write(content.replace('\\n','\n'))
             f.close()
     except Exception as e:
         print(f"An error occured: {e}")                        
@@ -37,11 +38,19 @@ def  wordguess():
     wordGuesser.menu()      
 def whoami(user):
     echo(user)
+def date():
+    t = time.time()
+    echo(time.ctime(t))
+def sleep(arg):
+    time.sleep(int(arg))        
 def rm(arg):
     if arg != "terminal.py" and arg != "wordGuesser.py":
-        os.remove(arg)
+        try:
+            os.remove(arg)
+        except Exception as e:
+            echo(f"An error occured: {e}")    
     else:
-        echo("Choose different thing to remove!")           
+        echo("Choose a different thing to remove!")           
 def su():
     terminal()
 def wget(url,output="none"):
@@ -54,6 +63,7 @@ def wget(url,output="none"):
             f.close()        
 def foxsay():
     a = r"""
+    
    /\   /\   Todd Vargo
   //\\_//\\     ____
   \_     _/    /   /
@@ -66,7 +76,7 @@ def foxsay():
     """
     print(a)    
 def echo(arg):
-    print(arg)
+    print(arg.replace('\\n','\n'))
 def clear():
     if os.name == "nt":
         os.system("cls")
@@ -154,7 +164,13 @@ def parser(arg,username):
                 else:
                     echo("Usage: append 'file' 'content'")
             elif "wordguess" in i and "'wordguess'" not in i:
-                wordguess()            
+                wordguess()
+            elif "date" in i and "'date'" not in i:
+                date()
+            elif "sleep" in i and "'sleep'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    sleep(match.group(1))                    
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -221,6 +237,14 @@ def parser(arg,username):
             echo("Usage: append 'file' 'content'")                                     
         elif "wordguess" in arg and "'worguess'" not in arg:
             wordguess()
+        elif "date" in arg and "'date'" not in arg:
+            date()
+        elif "sleep" in arg and "'sleep'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                sleep(match.group(1))
+        elif "sleep" in arg and "'" not in arg:
+                echo("Usage: sleep 'time'")
         else:
             echo("An error occured, undefined command found!")
        
