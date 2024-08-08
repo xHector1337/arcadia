@@ -3,7 +3,7 @@ import random
 
 words = ["cat","dog","hack","code","eye","redemption","clear","bandana","wise","freedom","game","face","house","white","blue","black","hear","red","pink","purple","wind","consciousness","llama","eagle","falcon","man","woman","brother","sister","life","paint","angry","river","house","street","state","preload","load","code","congratulation","abandon","acquire","addict","rock","roll","punk","hard","agreement","aircraft","ship","learn","holiday","mister","sir","school","walk","meet","again","heart","teacher","mom","dad","father","","know","where","sun","sunny","day","memory","moon","lake","live","die","death","cemetery","keyboard","mouse","computer","emotion","brain","run","word","justice","city","hall","angel","despicable","decision","result","laptop","absorb","destroy","people","fall","way","cowboy","cow","drive","driver","sea","see","light","flash","make","old","smile","snake","eater","solid","youth","school","homelander","deep","butcher","monkey","sloth","market","super","good","bad","ugly","star","glaze","glance","perfect","winter","jungle","boy","evil","fire","succession","title","liquid","theme","come","handkerchief","happy","girl","phone","console","mask","guess","empire","stay","ocean","climb","jump","love","interstellar","kitty","sell","world","puppy","west","north","east","south","soap","have","take","personal","alone","care","tired"]
 # I heard those while listening to music :')
-
+stored = []
 def randomChoice(difficulty):
     word = random.choice(words)
     match difficulty:
@@ -19,19 +19,19 @@ def randomChoice(difficulty):
     return word
 
 def wordChecker(word,attempts,hints):
-    stored = [""]
     if int(attempts) == 0:
         print(f"Oh, you are out of luck. The word was '{word}'")
-        exit()
+        return
     user = str(input("Enter your guess!\n"))
     if user == "abcdefghijklmnopqrstuvwxyz" or user == "abcdefghijklmnopqrstuvwxyz".upper():
         print("Loser!")
-        exit()
+        return
     if user == "hint" and hints > 0:
         hints -=1
         h = random.randint(0,(len(word)-1))
-        while h in stored:
-            h = random.randint(0,(len(word)-1))
+        if h in stored:
+            while h in stored:
+                h = random.randint(0,(len(word)-1))
         stored.append(h)
         print(f"There you go, here is your hint:\n{h+1}. character of the word is {word[h]}")
         wordChecker(word,attempts,hints)
@@ -40,7 +40,7 @@ def wordChecker(word,attempts,hints):
         wordChecker(word,attempts,hints)    
     if user == word:
             print("You have found it!")
-            exit()
+            return
     if len(user) > 0 and user != "hint":
         attempts -= 1
         count = 0
