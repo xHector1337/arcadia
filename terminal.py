@@ -3,6 +3,8 @@ import os
 import requests
 import wordGuesser
 import time
+import random
+import base64
 
 
 users = ["root","hector"]
@@ -27,6 +29,11 @@ def write(arg,content):
             f.close()
     except Exception as e:
         print("An error occured:",e)
+def coinflip():
+    if random.randint(0,100) > 50:
+        echo("Heads!")
+    else:
+        echo("Tails!")            
 def append(arg,content):
     try:
         with open(arg,"a+") as f:
@@ -43,6 +50,12 @@ def date():
     echo(time.ctime(t))
 def sleep(arg):
     time.sleep(int(arg))        
+def reverse(arg):
+    print(str(arg[::-1]))
+def upper(arg):
+    echo(str(arg).capitalize())
+def lower(arg):
+    echo(str(arg).lower())
 def rm(arg):
     if arg != "terminal.py" and arg != "wordGuesser.py":
         try:
@@ -63,7 +76,6 @@ def wget(url,output="none"):
             f.close()        
 def foxsay():
     a = r"""
-    
    /\   /\   Todd Vargo
   //\\_//\\     ____
   \_     _/    /   /
@@ -75,6 +87,16 @@ def foxsay():
     _[ [ \  /_/
     """
     print(a)    
+def b64(arg,method):
+    if method == "encode" or method == "e":
+        arg = base64.b64encode(str(arg).encode())
+        print(arg.decode('utf-8'))
+    elif method == "decode" or method == "d":
+        arg = base64.b64decode(str(arg).encode())
+        print(arg.decode('utf-8'))
+    else:
+        print("Enter a valid option!")           
+
 def echo(arg):
     print(arg.replace('\\n','\n'))
 def clear():
@@ -82,6 +104,38 @@ def clear():
         os.system("cls")
     else:
         os.system("clear")
+def countup(start,end):
+    y = re.search(r"[a-z]",start)
+    f = re.search(r"[a-z]",end)
+    if y:
+        echo("Enter an integer not a string!")
+    elif f:
+        echo("Enter an integer not a string!")
+    else:
+        if int(start) <= int(end):
+            for i in range(int(start),int(end)+1):
+                print(i)
+        elif int(end) <= int(start):
+            for i in range(int(end),int(start)+1):
+                print(i)
+        else:
+            echo("countup error!")
+def countdown(start,end):
+    l = re.search(r"[a-z]",start)
+    m = re.search(r"[a-z]",end)
+    if l:
+        echo("Enter an integer not string!")
+    elif m:
+        echo("Enter an integer not a string!")
+    else:
+        if int(start) <= int(end):
+            for i in range(int(end),int(start)-1,-1):
+                print(i)
+        elif int(end) <= int(start):
+            for i in range(int(start),int(end)-1,-1):
+                print(i)
+        else:
+            echo("countdown error!")                                                                
 def ls(arg=os.getcwd()):
     directory = os.listdir(arg)
     print(arg)
@@ -91,7 +145,25 @@ def ls(arg=os.getcwd()):
               |
               |
                --- {i}""")
-
+def b32(arg,method):
+    if method == "encode" or method == "e":
+        arg = base64.b32encode(str(arg).encode())
+        print(arg.decode('utf-8'))
+    elif method == "decode" or method == "d":
+        arg = base64.b32decode(str(arg).encode())
+        print(arg.decode('utf-8'))
+    else:
+        print("Enter a valid option!")
+def b16(arg,method):
+    if method == "encode" or method == "e":
+        arg = base64.b16encode(str(arg).encode())
+        print(arg.decode('utf-8'))
+    elif method == "decode" or method == "d":
+        arg = base64.b16decode(str(arg).encode())
+        print(arg.decode('utf-8'))
+    else:
+        print("Enter a valid option!")
+                                    
 def cat(arg):
     try:
         with open(arg,mode="rb") as f:
@@ -170,7 +242,17 @@ def parser(arg,username):
             elif "sleep" in i and "'sleep'" not in i:
                 match = re.search(r"'([^']+)'",i)
                 if match:
-                    sleep(match.group(1))                    
+                    sleep(match.group(1))
+            elif "sleep" in i and "'" not in i:
+                echo("Usage: sleep 'time'")
+            elif "coinflip" in i and "'coinflip'" not in i:
+                coinflip()
+            elif "reverse" in i and "'reverse'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    reverse(match.group(1))
+            elif "reverse" in i and "'" not in i:
+                echo("Usage: reverse 'text'")                                          
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -244,7 +326,15 @@ def parser(arg,username):
             if match:
                 sleep(match.group(1))
         elif "sleep" in arg and "'" not in arg:
-                echo("Usage: sleep 'time'")
+            echo("Usage: sleep 'time'")
+        elif "coinflip" in arg and "'coinflip'" not in arg:
+            coinflip()
+        elif "reverse" in arg and "'reverse'" not in arg:
+            match = re.search(r"'([^'])+",arg)
+            if match:
+                reverse(match.group(1))
+        elif "reverse" in arg and "'" not in arg:
+            echo("Usage: reverse 'text'")                    
         else:
             echo("An error occured, undefined command found!")
        
@@ -255,4 +345,5 @@ def terminal():
     while user != "exit":
         user = str(input(f"{username}@arcadia> "))
         parser(user,username)                 
-terminal()   
+terminal()
+ 
