@@ -29,6 +29,11 @@ def write(arg,content):
             f.close()
     except Exception as e:
         print("An error occured:",e)
+def mkdir(arg):
+    try:
+        os.mkdir(arg)
+    except Exception as e:
+        echo(f"An error occured: {e}")           
 def coinflip():
     if random.randint(0,100) > 50:
         echo("Heads!")
@@ -51,9 +56,9 @@ def date():
 def sleep(arg):
     time.sleep(int(arg))        
 def reverse(arg):
-    print(str(arg[::-1]))
+    print(str(arg)[::-1])
 def upper(arg):
-    echo(str(arg).capitalize())
+    echo(str(arg).upper())
 def lower(arg):
     echo(str(arg).lower())
 def rm(arg):
@@ -181,8 +186,8 @@ def parser(arg,username):
                 match = re.search(r"'([^']+)'",i)
                 if match:
                     echo(match.group(1))
-            elif "echo" in i and "'" not in i:
-                echo("Usage: echo 'arg'")
+                else:
+                    echo("Usage: echo 'text'")
             elif "su" in i and "'su'" not in i:
                 su()
             elif "whoami" in i and "'whoami'" not in i:
@@ -199,8 +204,6 @@ def parser(arg,username):
                     wget(match[0])
                 else:
                     echo("Usage whet 'url' (optional: 'outputFile')")        
-            elif "wget" in i and "'" not in i:
-                echo("Usage: wget 'url' (optional: 'outputFile')")
             elif "ls" in i and "'ls'" not in i:
                 match = re.search(r"'([^']+)",i)
                 if match:
@@ -211,24 +214,20 @@ def parser(arg,username):
                 match = re.search(r"'([^']+)'",i)    
                 if match:
                     cat(match.group(1))
-            elif "cat" in i and "'" not in i:
-                echo("Usage: cat 'file'") 
+                else:
+                    echo("Usage: cat 'file'")
             elif "rm" in i and "'rm'" not in i:
                 match = re.search(r"'([^']+)'",i)
                 if match:
                     rm(match.group(1))
                 else:
                     echo("Usage: rm 'file'")
-            elif "rm" in i and "'" not in i:
-                echo("Usage: rm 'file'")
             elif "write" in i and "'write'" not in i:
                 match = re.findall(r"'([^']+)'",i)
                 if len(match) == 2:
                     write(match[0],match[1])
                 else:
-                    echo("Usage write 'file' 'content'")
-            elif "write" in i and "'" not in i:
-                echo("Usage: write 'file' 'content'")                                                                   
+                    echo("Usage write 'file' 'content'")                                                                 
             elif "append" in i and "'append'" not in i:
                 match = re.findall(r"'([^']+)'",i)
                 if len(match) == 2:
@@ -243,16 +242,64 @@ def parser(arg,username):
                 match = re.search(r"'([^']+)'",i)
                 if match:
                     sleep(match.group(1))
-            elif "sleep" in i and "'" not in i:
-                echo("Usage: sleep 'time'")
+                else:
+                    echo("Usage: sleep 'time'")
             elif "coinflip" in i and "'coinflip'" not in i:
                 coinflip()
             elif "reverse" in i and "'reverse'" not in i:
                 match = re.search(r"'([^']+)'",i)
                 if match:
                     reverse(match.group(1))
-            elif "reverse" in i and "'" not in i:
-                echo("Usage: reverse 'text'")                                          
+                else:
+                    echo("Usage: reverse 'text'")                                         
+            elif "b64" in i and "'b64'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                   b64(match[0],match[1])
+                else:
+                    echo("Usage: b64 'text' 'method'")
+            elif "b32" in i and "'b32'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    b32(match[0],match[1])
+                else:
+                    echo("Usage: b32 'text' 'method'")
+            elif "upper" in i and "'b32'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    upper(match.group(1))
+                else:
+                    echo("Usage: upper 'text'")
+            elif "lower" in i and "'lower'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    lower(match.group(1))
+                else:
+                    echo("Usage: lower 'text'")
+            elif "b16" in i and "'b16'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    b16(match[0],match[1])
+                else:
+                    echo("Usage: b16 'text' 'method'")
+            elif "countup" in i and "'countdown'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    countup(match[0],match[1])
+                else:
+                    echo("Usage: countup 'integer' 'integer'")
+            elif "countdown" in i and "'countdown'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    countdown(match[0],match[1])
+                else:
+                    echo("Usage: countdown 'integer' 'integer'")
+            elif "mkdir" in i and "'mkdir'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    mkdir(match.group(1))
+                else:
+                    echo("Usage: mkdir 'directory'")                                                                                             
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -263,8 +310,8 @@ def parser(arg,username):
             match = re.search(r"'([^']+)'",arg)
             if match:
                 echo(match.group(1))
-        elif "echo" in arg and "'" not in arg:
-            echo("Usage: echo 'arg'")
+            else:
+                echo("Usage: echo 'text'")
         elif "su" in arg and "'su'" not in arg:
             su()
         elif "whoami" in arg and "'whoami'" not in arg:
@@ -281,8 +328,6 @@ def parser(arg,username):
                 wget(match[0])
             else:
                 echo("Usage: wget 'url' (optional: 'outputFile')")                        
-        elif "wget" in arg and "'" not in arg:
-            echo("Usage: wget 'url' (optional: 'outputFile')")
         elif "ls" in arg and "'ls'" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
@@ -293,30 +338,26 @@ def parser(arg,username):
             match = re.search(r"'([^']+)'",arg)
             if match:
                 cat(match.group(1))
-        elif "cat" in arg and "'" not in arg:
-            echo("Usage: cat 'file'")            
+            else:
+                echo("Usage: cat 'file'")          
         elif "rm" in arg and "'rm'" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
                 rm(match.group(1))
-        elif "rm" in arg and "'" not in arg:
-            echo("Usage: rm 'file'")
+            else:
+                echo("Usage: rm 'file'")
         elif "write" in arg and "'write'" not in arg:
             match = re.findall(r"'([^']+)'",arg)
             if len(match) == 2:
              write(match[0],match[1])
             else:
                 echo("Usage: write 'file' 'content'")
-        elif "write" in arg and "'" not in arg:
-            echo("Usage: write 'file' 'content'")
         elif "append" in arg and "'append'" not in arg:
             match = re.findall(r"'([^']+)'",arg)
             if len(match) == 2:
                 append(match[0],match[1])
             else:
                 echo("Usage: append 'file' 'content'")
-        elif "append" in arg and "'" not in arg:
-            echo("Usage: append 'file' 'content'")                                     
         elif "wordguess" in arg and "'worguess'" not in arg:
             wordguess()
         elif "date" in arg and "'date'" not in arg:
@@ -325,16 +366,64 @@ def parser(arg,username):
             match = re.search(r"'([^']+)'",arg)
             if match:
                 sleep(match.group(1))
-        elif "sleep" in arg and "'" not in arg:
-            echo("Usage: sleep 'time'")
+            else:    
+                echo("Usage: sleep 'time'")
         elif "coinflip" in arg and "'coinflip'" not in arg:
             coinflip()
         elif "reverse" in arg and "'reverse'" not in arg:
-            match = re.search(r"'([^'])+",arg)
+            match = re.search(r"'([^']+)'",arg)
             if match:
                 reverse(match.group(1))
-        elif "reverse" in arg and "'" not in arg:
-            echo("Usage: reverse 'text'")                    
+            else:
+                echo("Usage: reverse 'text'")
+        elif "upper" in arg and "'upper'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                upper(match.group(1))
+            else:
+                echo("Usage: upper 'text'")
+        elif "lower" in arg and "'lower'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                lower(match.group(1))
+            else:
+                echo("Usage: lower 'text'")
+        elif "b64" in arg and "'b64'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                b64(match[0],match[1])
+            else:
+                echo("Usage: b64 'text' 'method'")
+        elif "b32" in arg and "'b32'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                b32(match[0],match[1])
+            else:
+                echo("Usage: b32 'text' 'method'")
+        elif "b16" in arg and "'b16'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                b16(match[0],match[1])
+            else:
+                echo("Usage: b16 'text' 'method'")
+        elif "mkdir" in arg and "'mkdir'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                mkdir(match.group(1))
+            else:
+                echo("Usage: mkdir 'directory'")            
+        elif "countup" in arg and "'countup'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                countup(match[0],match[1])
+            else:
+                echo("Usage: countup 'integer' 'integer'")
+        elif "countdown" in arg and "'countdown'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                countdown(match[0],match[1])
+            else:
+                echo("Usage: countdown 'integer' 'integer'")                                                                                                     
         else:
             echo("An error occured, undefined command found!")
        
