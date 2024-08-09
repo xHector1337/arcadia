@@ -81,3 +81,9 @@ def menu():
     print(f"The word is {'*'*len(word)}")        
     print(f"The word's length is {len(word)}. You have {attempts} attempts and {hints} hints!\nYou can use your hints by typing 'hint'\nGood luck.")
     wordChecker(word,attempts,hints)
+def randomword(amount):
+    count = 0
+    while count != amount:
+        i = random.choice(words)
+        print(i)
+        count +=1
