@@ -5,7 +5,7 @@ import wordGuesser
 import time
 import random
 import base64
-import shutil
+import ruskiroulette
 
 
 
@@ -24,6 +24,12 @@ def login():
             print("Try again!")        
     print("Bad luck")
     exit()
+def pwd():
+    print(os.getcwd())
+def randomword(amount):
+    wordGuesser.randomword(amount)    
+def russianroulette():
+    ruskiroulette.game()        
 def write(arg,content):
     try:
         with open(arg,"w+") as f:
@@ -40,13 +46,10 @@ def mkdir(arg):
         except Exception as e:
             echo(f"An error occured: {e}")
 def rmdir(arg):
-    if os.path.isdir(arg):
         try:
-            shutil.rmtree(arg)
+            os.rmdir(arg)
         except Exception as e:
-            echo(f"An error occured: {e}")
-    else:
-        print(f"{arg} is not a directory")                    
+            echo(f"An error occured: {e}")                  
 def touch(arg):
     try:
         with open(arg,"w") as f:
@@ -75,10 +78,13 @@ def date():
 def sleep(arg):
     time.sleep(int(arg))        
 def reverse(arg):
+    arg = arg.replace("\\n","\n")
     print(str(arg)[::-1])
 def upper(arg):
+    arg = arg.replace("\\n","\n")
     echo(str(arg).upper())
 def lower(arg):
+    arg = arg.replace("\\n","\n")
     echo(str(arg).lower())
 def rm(arg):
     if arg != "terminal.py" and arg != "wordGuesser.py":
@@ -156,6 +162,11 @@ def clear():
         os.system("cls")
     else:
         os.system("clear")
+def cd(arg):
+    try:
+        os.chdir(arg)
+    except Exception as e:
+        print(f"An error occured: {e}")    
 def countup(start,end):
     y = re.search(r"[a-z]",start)
     f = re.search(r"[a-z]",end)
@@ -188,10 +199,15 @@ def countdown(start,end):
                 print(i)
         else:
             echo("countdown error!")                                                                
-def ls(arg=os.getcwd()):
-    directory = os.listdir(arg)
-    print(arg)
-    for i in directory:
+def ls(arg="none"):
+    directory = ""
+    if arg == "none":
+        directory = os.getcwd()
+    else:
+        directory = arg    
+    contents = os.listdir(directory)    
+    print(f"\t{arg}")
+    for i in contents:
         if os.path.isdir(i):
             print(f"""
               |
@@ -248,6 +264,7 @@ def parser(arg,username):
                 whoami(username)
             elif "exit" in i and "'exit'" not in i:
                 echo("Exiting...")
+                exit()
             elif "foxsay" in i and "'foxsay'" not in i:
                 foxsay()
             elif "wget" in i and "'wget'" not in i:
@@ -270,7 +287,7 @@ def parser(arg,username):
                     cat(match.group(1))
                 else:
                     echo("Usage: cat 'file'")
-            elif "rm" in i and "'rm'" not in i:
+            elif "rm" in i and "'rm'" not in i and "rmdir" not in i:
                 match = re.search(r"'([^']+)'",i)
                 if match:
                     rm(match.group(1))
@@ -360,6 +377,14 @@ def parser(arg,username):
                     touch(match.group(1))
                 else:
                     echo("Usage: touch 'file'")
+            elif "pwd" in i and "'pwd'" not in i:
+                pwd()
+            elif "cd" in i and "'cd'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    cd(match.group(1))
+                else:
+                    echo("Usage: cd 'directory'")                
             elif "rmdir" in i and "'rmdir'" not in i:
                 match = re.search(r"'([^']+)'",i)
                 if match:
@@ -367,7 +392,9 @@ def parser(arg,username):
                 else:
                     echo("Usage: rmdir 'directory'")
             elif "meow" in i and "'meow'" not in i:
-                meow()                                                                                                                             
+                meow()
+            elif "russianroulette" in i and "'russianroulette'" not in i:
+                russianroulette()                                                                                                                                 
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -408,7 +435,7 @@ def parser(arg,username):
                 cat(match.group(1))
             else:
                 echo("Usage: cat 'file'")          
-        elif "rm" in arg and "'rm'" not in arg:
+        elif "rm" in arg and "'rm'" not in arg and "rmdir" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
                 rm(match.group(1))
@@ -468,6 +495,8 @@ def parser(arg,username):
                 b32(match[0],match[1])
             else:
                 echo("Usage: b32 'text' 'method'")
+        elif "russianroulette" in arg and "'russianroulette'" not in arg:
+            russianroulette()        
         elif "b16" in arg and "'b16'" not in arg:
             match = re.findall(r"'([^']+)'",arg)
             if len(match) == 2:
@@ -506,12 +535,20 @@ def parser(arg,username):
                 echo("Usage: rmdir 'directory'")
         elif "meow" in arg and "'meow'" not in arg:
             meow()                                                                                                                                     
+        elif "cd" in arg and "'cd'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                cd(match.group(1))
+            else:
+                echo("Usage: cd 'directory'")
+        elif "pwd" in arg and "'pwd'" not in arg:
+            pwd()            
         else:
             echo("An error occured, undefined command found!") 
        
                                                                       
 def terminal():
-    username = login()
+    username = login()    
     user = ""
     while user != "exit":
         user = str(input(f"{username}@arcadia> "))
