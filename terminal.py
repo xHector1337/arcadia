@@ -5,6 +5,8 @@ import wordGuesser
 import time
 import random
 import base64
+import shutil
+
 
 
 users = ["root","hector"]
@@ -30,10 +32,27 @@ def write(arg,content):
     except Exception as e:
         print("An error occured:",e)
 def mkdir(arg):
+    if os.path.isdir(arg):
+        echo("The directory you are trying to create already exists.")
+    else:    
+        try:
+            os.mkdir(arg)
+        except Exception as e:
+            echo(f"An error occured: {e}")
+def rmdir(arg):
+    if os.path.isdir(arg):
+        try:
+            shutil.rmtree(arg)
+        except Exception as e:
+            echo(f"An error occured: {e}")
+    else:
+        print(f"{arg} is not a directory")                    
+def touch(arg):
     try:
-        os.mkdir(arg)
+        with open(arg,"w") as f:
+            f.close()
     except Exception as e:
-        echo(f"An error occured: {e}")           
+        print("There is an error,",e)                           
 def coinflip():
     if random.randint(0,100) > 50:
         echo("Heads!")
@@ -63,10 +82,13 @@ def lower(arg):
     echo(str(arg).lower())
 def rm(arg):
     if arg != "terminal.py" and arg != "wordGuesser.py":
-        try:
-            os.remove(arg)
-        except Exception as e:
-            echo(f"An error occured: {e}")    
+        if os.path.isfile(arg):
+            try:
+                os.remove(arg)
+            except Exception as e:
+                echo(f"An error occured: {e}")
+        else:
+            print(f"The file '{arg}' doesn't exist.")            
     else:
         echo("Choose a different thing to remove!")           
 def su():
@@ -91,7 +113,32 @@ def foxsay():
      [ [ /  \/ _/
     _[ [ \  /_/
     """
-    print(a)    
+    print(a)
+def meow():
+    a = r""" 
+            *     ,MMM8&&&.            *
+                  MMMM88&&&&&    .
+                 MMMM88&&&&&&&
+     *           MMM88&&&&&&&&
+                 MMM88&&&&&&&&
+                 'MMM88&&&&&&'
+                   'MMM8&&&'      *
+          |\___/|
+          )     (             .              '
+         =\     /=
+           )===(       *
+          /     \
+          |     |
+         /       \
+         \       /
+  _/\_/\_/\__  _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_
+  |  |  |  |( (  |  |  |  |  |  |  |  |  |  |
+  |  |  |  | ) ) |  |  |  |  |  |  |  |  |  |
+  |  |  |  |(_(  |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  jgs|  |  |  |  |  |  |  |  |  |  |  |  |  |"""
+    
+    print(a)        
 def b64(arg,method):
     if method == "encode" or method == "e":
         arg = base64.b64encode(str(arg).encode())
@@ -145,11 +192,18 @@ def ls(arg=os.getcwd()):
     directory = os.listdir(arg)
     print(arg)
     for i in directory:
-        print(f"""
+        if os.path.isdir(i):
+            print(f"""
               |
               |
               |
-               --- {i}""")
+               --- {i}/""")
+        else:
+            print(f"""
+              |
+              |
+              |
+               --- {i}""")    
 def b32(arg,method):
     if method == "encode" or method == "e":
         arg = base64.b32encode(str(arg).encode())
@@ -299,7 +353,21 @@ def parser(arg,username):
                 if match:
                     mkdir(match.group(1))
                 else:
-                    echo("Usage: mkdir 'directory'")                                                                                             
+                    echo("Usage: mkdir 'directory'")
+            elif "touch" in i and "'touch'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    touch(match.group(1))
+                else:
+                    echo("Usage: touch 'file'")
+            elif "rmdir" in i and "'rmdir'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    rmdir(match.group(1))
+                else:
+                    echo("Usage: rmdir 'directory'")
+            elif "meow" in i and "'meow'" not in i:
+                meow()                                                                                                                             
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -423,9 +491,23 @@ def parser(arg,username):
             if len(match) == 2:
                 countdown(match[0],match[1])
             else:
-                echo("Usage: countdown 'integer' 'integer'")                                                                                                     
+                echo("Usage: countdown 'integer' 'integer'")
+        elif "touch" in arg and "'touch'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                touch(match.group(1))
+            else:
+                echo("Usage: touch 'file'")
+        elif "rmdir" in arg and "'rmdir'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                rmdir(match.group(1))
+            else:
+                echo("Usage: rmdir 'directory'")
+        elif "meow" in arg and "'meow'" not in arg:
+            meow()                                                                                                                                     
         else:
-            echo("An error occured, undefined command found!")
+            echo("An error occured, undefined command found!") 
        
                                                                       
 def terminal():
