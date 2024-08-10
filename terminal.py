@@ -7,6 +7,7 @@ import random
 import base64
 import ruskiroulette
 import slotgame
+import schopenhauer as s
 
 
 
@@ -59,11 +60,17 @@ def russianroulette():
     ruskiroulette.game()
 def weather(arg="none"):
     if arg == "none":
-        req = requests.get("https://wttr.in/")
-        print(req.text)
+        try:
+            req = requests.get("https://wttr.in/")
+            print(req.text)
+        except Exception as e:
+            print(f"There is an error! {e}")    
     else:
-        req = requests.get(f"https://wttr.in/{arg}")
-        print(req.text)
+        try:
+            req = requests.get(f"https://wttr.in/{arg}")
+            print(req.text)
+        except Exception as e:
+            print(f"There is an error! {e}")    
     print("Source: https://wttr.in/")    
 def whatismyip():
     try:
@@ -71,7 +78,8 @@ def whatismyip():
         print(req.text)
     except Exception as e:
         print(f"Couldn't get your ip: {e}")            
-                        
+def schopenhauer():
+    s.status()                        
 def write(arg,content):
     try:
         with open(arg,"w+") as f:
@@ -455,6 +463,8 @@ def parser(arg,username):
                     weather(match.group(1))
                 else:
                     weather()
+            elif "schopenhauer" in i and "'schopenhauer'" not in i:
+                schopenhauer()        
             elif "run" in i and "'run'" not in i:
                 match = re.search(r"'([^']+)'",i)
                 if match:
@@ -602,7 +612,9 @@ def parser(arg,username):
             else:
                 echo("Usage: rmdir 'directory'")
         elif "meow" in arg and "'meow'" not in arg:
-            meow()                                                                                                                                     
+            meow()
+        elif "schopenhauer" in arg and "'schopenhauer'" not in arg:
+            schopenhauer()                                                                                                                                         
         elif "cd" in arg and "'cd'" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
