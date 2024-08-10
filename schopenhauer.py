@@ -1,7 +1,7 @@
 import random
 
 
-moods = ["sleepy","playful","hungry","happy","chilling","angry","bored"]
+moods = ["sleepy","playful","hungry","chilling","angry","bored"]
 
 def status():
     mood = random.choice(moods)
@@ -169,8 +169,8 @@ def status():
                `*-*   `*-*  `*-*'        """)
         print("Schopenhauer is bored. You might spend some time with him.")
         choice = int(input("\n1. Play with him.\n2. Leave him alone."))
-    elif choice == 1:
-        print(r'''
+        if choice == 1:
+            print(r'''
   --.
  '-. \            |\\_
     \ \           /  a'.
@@ -180,9 +180,9 @@ def status():
       /\ \-"""-'\ \ \
      / / /_      \ \ \_
   jgs\_\___)      \__)_)''')
-        print("Schopenhauer is extremely happy. He loves you too much! :3")
-    elif choice == 2:
-        print(r''' 
+            print("Schopenhauer is extremely happy. He loves you too much! :3")
+        elif choice == 2:
+            print(r''' 
                    .-o=o-.
                ,  /=o=o=o=\ .--.
               _|\|=o=O=o=O=|    \
@@ -192,10 +192,129 @@ def status():
              `)  _.'   /     /`-.__.' /
           jgs `'-.____;     /'-.___.-'
                        `"""`''')
-        print("Well, he knows how to entertain himself. He does not need you!")
-    else:
-        print("Do you think you can fool Schopenhauer?")        
-
-
-status()                                                         
+            print("Well, he knows how to entertain himself. He does not need you!")
+        else:
+            print("Do you think you can fool Schopenhauer?")
+    
+    elif mood == "chilling":
+        chance = random.randint(0,100)
+        if chance < 60 and chance > 30:
+            print(r"""
+              *    ,MMM8&&&.            *
+                  MMMM88&&&&&    .
+                 MMMM88&&&&&&&
+     *           MMM88&&&&&&&&
+                 MMM88&&&&&&&&
+                 'MMM88&&&&&&'
+                   'MMM8&&&'      *
+          |\___/|
+          )     (             .              '
+         =\     /=
+           )===(       *
+          /     \
+          |     |
+         /       \
+         \       /
+  _/\_/\_/\__  _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_
+  |  |  |  |( (  |  |  |  |  |  |  |  |  |  |
+  |  |  |  | ) ) |  |  |  |  |  |  |  |  |  |
+  |  |  |  |(_(  |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  jgs|  |  |  |  |  |  |  |  |  |  |  |  |  |
+  
+  """)
+            print("Schopenhauer is chilling alone.")                
+        elif chance < 30 and chance > 10:
+            print(r"""
+                jgs|  |  |  |  |  |  |  |  |  |  |  |  |  |
+             *     ,MMM8&&&.            *
+                  MMMM88&&&&&    .
+                 MMMM88&&&&&&&
+     *           MMM88&&&&&&&&
+                 MMM88&&&&&&&&
+                 'MMM88&&&&&&'
+                   'MMM8&&&'      *
+          |\___/|
+         =) ^Y^ (=            .              '
+          \  ^  /
+           )=*=(       *
+          /     \
+          |     |
+         /| | | |\
+         \| | |_|/\
+  jgs_/\_//_// ___/\_/\_/\_/\_/\_/\_/\_/\_/\_
+  |  |  |  | \_) |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+              """)
+            print("Schopenhauer is chilling alone.")
+        elif chance > 60:
+            print(r"""
+             *     ,MMM8&&&.            *
+                  MMMM88&&&&&    .
+                 MMMM88&&&&&&&
+     *           MMM88&&&&&&&&
+                 MMM88&&&&&&&&
+                 'MMM88&&&&&&'
+                   'MMM8&&&'      *    
+          |\___/|     /\___/\
+          )     (     )    ~( .              '
+         =\     /=   =\~    /=
+           )===(       ) ~ (
+          /     \     /     \
+          |     |     ) ~   (
+         /       \   /     ~ \
+         \       /   \~     ~/
+  jgs_/\_/\__  _/_/\_/\__~__/_/\_/\_/\_/\_/\_
+  |  |  |  |( (  |  |  | ))  |  |  |  |  |  |
+  |  |  |  | ) ) |  |  |//|  |  |  |  |  |  |
+  |  |  |  |(_(  |  |  (( |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |\)|  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  
+              """)
+            print("Schopenhauer is chilling with someone special :3")
+        elif chance < 10 and chance > 0:
+            print(r""""
+             *     ,MMM8&&&.            *
+                  MMMM88&&&&&    .
+                 MMMM88&&&&&&&
+     *           MMM88&&&&&&&&
+                 MMM88&&&&&&&&
+                 'MMM88&&&&&&'
+                   'MMM8&&&'      *    
+           /\/|_      __/\\
+          /    -\    /-   ~\  .              '
+          \    = Y =T_ =   /
+           )==*(`     `) ~ \
+          /     \     /     \
+          |     |     ) ~   (
+         /       \   /     ~ \
+         \       /   \~     ~/
+  jgs_/\_/\__  _/_/\_/\__~__/_/\_/\_/\_/\_/\_
+  |  |  |  | ) ) |  |  | ((  |  |  |  |  |  |
+  |  |  |  |( (  |  |  |  \\ |  |  |  |  |  |
+  |  |  |  | )_) |  |  |  |))|  |  |  |  |  |
+  |  |  |  |  |  |  |  |  (/ |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  
+              """)
+            print("Schopenhauer is chilling with someone special :3")        
+    elif mood == "sleepy":
+        print(r"""
+              __..--''``---....___   _..._    __
+    /// //_.-'    .-/";  `        ``<._  ``.''_ `. / // /
+   ///_.-' _..--.'_    \                    `( ) ) // //
+   / (_..-' // (< _     ;_..__               ; `' / ///
+    / // // //  `-._,_)' // / ``--...____..-' /// / // 
+Felix Lee 
+              """)
+        print("Schopenhauer is sleeping.")
+        choice = int(input("1. Be quiet\n2. Make noise.\nEnter your choice: "))
+        if choice == 1:
+            print("He looks so cute while he is sleeping.")
+        elif choice == 2:
+            print("He doesn't hear you.")
+        else:    
+            print("It is impossible to fool him, even if he is sleeping!")                                                                
     
