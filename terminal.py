@@ -6,6 +6,7 @@ import time
 import random
 import base64
 import ruskiroulette
+import slotgame
 
 
 
@@ -49,7 +50,9 @@ def rmdir(arg):
         try:
             os.rmdir(arg)
         except Exception as e:
-            echo(f"An error occured: {e}")                  
+            echo(f"An error occured: {e}")
+def slot():
+    slotgame.game()                         
 def touch(arg):
     try:
         with open(arg,"w") as f:
@@ -394,7 +397,15 @@ def parser(arg,username):
             elif "meow" in i and "'meow'" not in i:
                 meow()
             elif "russianroulette" in i and "'russianroulette'" not in i:
-                russianroulette()                                                                                                                                 
+                russianroulette()
+            elif "randomword" in i and "'randomword'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    randomword(int(match.group(1)))
+                else:
+                    echo("Usage: randomword 'amount'")    
+            elif "slot" in i and "'slot'" not in i:
+                slot()                                                                                                                                         
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -542,7 +553,15 @@ def parser(arg,username):
             else:
                 echo("Usage: cd 'directory'")
         elif "pwd" in arg and "'pwd'" not in arg:
-            pwd()            
+            pwd()
+        elif "randomword" in arg and "'randomword'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                randomword(int(match.group(1)))
+            else:
+                echo("Usage: randomword 'amount'")   
+        elif "slot" in arg and "'slot'" not in arg:
+            slot()                    
         else:
             echo("An error occured, undefined command found!") 
        
