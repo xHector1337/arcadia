@@ -27,10 +27,51 @@ def login():
     exit()
 def pwd():
     print(os.getcwd())
+def whatismyipv6():
+    try:
+        req = requests.get("https://api6.ipify.org")
+        print(req.text)
+    except Exception as e:
+        print(f"We couldn't get your ipv6: {e}")        
+def run(arg,user):
+    try:
+        with open(arg,'r+') as f:
+            lines = f.readlines()
+            if ".arcadia" not in arg:
+                print("It is not a '.arcadia' file!")
+                return
+            if len(lines) == 0:
+                print("Empty file!")
+                return 
+            if lines[0].strip() == "arcadia":
+                i = 1
+                while i < len(lines):
+                    parser(lines[i],user)
+                    i+=1
+                f.close()    
+            else:
+                print(f"Make sure your file starts with 'arcadia'")
+    except Exception as e:
+        print(f"There is a run error! {e}")                        
 def randomword(amount):
     wordGuesser.randomword(amount)    
 def russianroulette():
-    ruskiroulette.game()        
+    ruskiroulette.game()
+def weather(arg="none"):
+    if arg == "none":
+        req = requests.get("https://wttr.in/")
+        print(req.text)
+    else:
+        req = requests.get(f"https://wttr.in/{arg}")
+        print(req.text)
+    print("Source: https://wttr.in/")    
+def whatismyip():
+    try:
+        req = requests.get("https://api.ipify.org")
+        print(req.text)
+    except Exception as e:
+        print(f"Couldn't get your ip: {e}")            
+                        
 def write(arg,content):
     try:
         with open(arg,"w+") as f:
@@ -90,7 +131,7 @@ def lower(arg):
     arg = arg.replace("\\n","\n")
     echo(str(arg).lower())
 def rm(arg):
-    if arg != "terminal.py" and arg != "wordGuesser.py":
+    if arg != "terminal.py" and arg != "wordGuesser.py" and arg != "ruskiroulette.py" and arg != "slot.py":
         if os.path.isfile(arg):
             try:
                 os.remove(arg)
@@ -405,7 +446,23 @@ def parser(arg,username):
                 else:
                     echo("Usage: randomword 'amount'")    
             elif "slot" in i and "'slot'" not in i:
-                slot()                                                                                                                                         
+                slot()
+            elif "whatismyip" in i and "'whatismyip'" not in i:
+                whatismyip()
+            elif "weather" in i and "'weather'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    weather(match.group(1))
+                else:
+                    weather()
+            elif "run" in i and "'run'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    run(match.group(1),username)
+                else:
+                    echo("Usage: run 'file'")
+            elif "whatismyipv6" in i and "'whatismyipv6'" not in i:
+                whatismyipv6()                                                                                                                                                                         
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -561,7 +618,23 @@ def parser(arg,username):
             else:
                 echo("Usage: randomword 'amount'")   
         elif "slot" in arg and "'slot'" not in arg:
-            slot()                    
+            slot()
+        elif "whatismyip" in arg and "'whatismyip'" not in arg:
+            whatismyip()
+        elif "weather" in arg and "'weather'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                weather(match.group(1))
+            else:
+                weather()
+        elif "run" in arg and"'run'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                run(match.group(1),username)
+            else:
+                print("Usage: run 'file'")
+        elif "whatismyipv6" in arg and "'whatismyipv6'" not in arg:
+            whatismyipv6()                                                    
         else:
             echo("An error occured, undefined command found!") 
        
@@ -573,4 +646,3 @@ def terminal():
         user = str(input(f"{username}@arcadia> "))
         parser(user,username)                 
 terminal()
- 
