@@ -8,10 +8,36 @@ import base64
 import ruskiroulette
 import slotgame
 import schopenhauer as s
+import turtle
 
+def randomdraw(number):
+    try:
+        i = 0
+        t = turtle.Turtle()
+        t.speed(10)
+        turtle.Screen().screensize(800,600)
+        while i < int(number):
+            n = random.randint(0,600)
+            chance = random.randint(0,100)
+            if chance < 30:
+                t.right(n)
+            elif chance < 50:
+                t.forward(n)
+            elif chance < 70:
+                t.left(n)
+            else:
+                t.circle(n)
+            i += 1
+        turtle.done()
+    except Exception as e:
+        print(f"Oh, we have lost the pen! {e}")                
+                    
+            
+        
 
 
 users = ["root","hector"]
+lastOutput = ""
 def login(attempts):
     user = str(input("Enter the username:\t"))
     password = str(input("Enter the password:\t"))
@@ -446,7 +472,7 @@ def parser(arg,username):
                     b16(match[0],match[1])
                 else:
                     echo("Usage: b16 'text' 'method'")
-            elif "countup" in i and "'countdown'" not in i:
+            elif "countup" in i and "'countup'" not in i:
                 match = re.findall(r"'([^']+)'",i)
                 if len(match) == 2:
                     countup(match[0],match[1])
@@ -531,15 +557,23 @@ def parser(arg,username):
                 if len(match) == 2:
                     randomnumber(int(match[0]),int(match[1]))
                 else:
-                    echo("Usage: randomnumber 'number' 'number'")
+                    echo("Usage: randomnumber 'integer' 'integer'")
+            elif "randomdraw" in i and "'randomdraw'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    randomdraw(int(match.group(1)))
+                else:
+                    echo("Usage: randomdraw 'integer'")            
             elif "checkhttp" and "'checkhttp'" not in i:
                 match = re.search(r"'([^']+)'",i)
                 if match:
-                    checkhttp(match.group(1))                                                                                                                                                                                                        
+                    checkhttp(match.group(1))
+                else:
+                    print("Usage: checkhttp 'url'")                                                                                                                                                                                                            
             else:
                 echo("An error occured, undefined command found!")
                 break
-    elif "&&" not in arg:
+    elif " && " not in arg:
         if "clear" in arg and "'clear'" not in arg:
             clear()
         elif "echo" in arg and "'echo'" not in arg:
@@ -720,20 +754,28 @@ def parser(arg,username):
             match = re.search(r"'([^']+)'",arg)
             if match:
                 checkhttp(match.group(1))
+            else:
+                echo("Usage: checkhttp 'url'")    
         elif "randomnumber" in arg and "'randomnumber'" not in arg:
             match = re.findall(r"'([^']+)'",arg)
             if len(match) == 2:
                 randomnumber(int(match[0]),int(match[1]))
             else:
-                echo("Usage: randomnumber 'number' 'number'")
+                echo("Usage: randomnumber 'integer' 'integer'")
         elif "catappend" in arg and "'catappend'" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
                 catappend(match.group(1))
             else:
-                echo("Usage: catappend 'file'")                                                                                            
+                echo("Usage: catappend 'file'")
+        elif "randomdraw" in arg and "'randomdraw'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                randomdraw(int(match.group(1)))
+            else:
+                echo("Usage: randomdraw 'integer'")                                                                                                         
         else:
-            echo("An error occured, undefined command found!") 
+            echo("An error occured, undefined command found!")                          
        
                                                                       
 def terminal():
