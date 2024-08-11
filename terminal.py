@@ -23,7 +23,7 @@ def login(attempts):
     elif user == "hector" and password == "hector":
         return "hector"
     else:
-        login((attempts-1))    
+        return login(attempts-1)    
 def pwd():
     print(os.getcwd())
 def checkhttp(arg):
@@ -111,7 +111,7 @@ def schopenhauer():
 def write(arg,content):
     try:
         with open(arg,"w+") as f:
-            f.write(content.replace('\\n','\n'))
+            f.write(content.replace('\\n','\n').replace('\\t','\t'))
             f.close()
     except Exception as e:
         print("An error occured:",e)
@@ -140,11 +140,24 @@ def coinflip():
     if random.randint(0,100) > 50:
         echo("Heads!")
     else:
-        echo("Tails!")            
+        echo("Tails!")
+def catappend(arg):
+    try:
+        with open(arg,"a+") as f:
+            f.seek(0)
+            data = f.readlines()
+            for i in data:
+                print(i)
+            content = str(input("\n"))
+            f.write(content.replace('\\n','\n').replace('\\t','\t'))
+            f.close()
+    except Exception as e:
+        print(f"An error occured: {e}")        
+                                     
 def append(arg,content):
     try:
         with open(arg,"a+") as f:
-            f.write(content.replace('\\n','\n'))
+            f.write(content.replace('\\n','\n').replace('\\t','\t'))
             f.close()
     except Exception as e:
         print(f"An error occured: {e}")                        
@@ -361,7 +374,7 @@ def parser(arg,username):
                     ls(match.group(1))
                 else:
                     ls()    
-            elif "cat" in i and "'cat'" not in i:
+            elif "cat" in i and "'cat'" not in i and "catappend" not in i:
                 match = re.search(r"'([^']+)'",i)    
                 if match:
                     cat(match.group(1))
@@ -379,7 +392,7 @@ def parser(arg,username):
                     write(match[0],match[1])
                 else:
                     echo("Usage write 'file' 'content'")                                                                 
-            elif "append" in i and "'append'" not in i:
+            elif "append" in i and "'append'" and "catappend" not in i:
                 match = re.findall(r"'([^']+)'",i)
                 if len(match) == 2:
                     append(match[0],match[1])
@@ -491,6 +504,12 @@ def parser(arg,username):
                     weather(match.group(1))
                 else:
                     weather()
+            elif "catappend" in i and "'catappend'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    catappend(match.group(1))
+                else:
+                    echo("Usage: catappend 'file'")            
             elif "schopenhauer" in i and "'schopenhauer'" not in i:
                 schopenhauer()        
             elif "run" in i and "'run'" not in i:
@@ -551,7 +570,7 @@ def parser(arg,username):
                 ls(match.group(1))
             else:
                 ls()    
-        elif "cat" in arg and "'cat'" not in arg:
+        elif "cat" in arg and "'cat'" and "catappend" not in arg:
             match = re.search(r"'([^']+)'",arg)
             if match:
                 cat(match.group(1))
@@ -569,7 +588,7 @@ def parser(arg,username):
              write(match[0],match[1])
             else:
                 echo("Usage: write 'file' 'content'")
-        elif "append" in arg and "'append'" not in arg:
+        elif "append" in arg and "'append'" and "catappend" not in arg:
             match = re.findall(r"'([^']+)'",arg)
             if len(match) == 2:
                 append(match[0],match[1])
@@ -706,7 +725,13 @@ def parser(arg,username):
             if len(match) == 2:
                 randomnumber(int(match[0]),int(match[1]))
             else:
-                echo("Usage: randomnumber 'number' 'number'")                                                                                
+                echo("Usage: randomnumber 'number' 'number'")
+        elif "catappend" in arg and "'catappend'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                catappend(match.group(1))
+            else:
+                echo("Usage: catappend 'file'")                                                                                            
         else:
             echo("An error occured, undefined command found!") 
        
