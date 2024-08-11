@@ -26,6 +26,26 @@ def login(attempts):
         login((attempts-1))    
 def pwd():
     print(os.getcwd())
+def checkhttp(arg):
+    try:
+        req = requests.get(arg)
+        if req.status_code == 200:
+            print(f"[{req.status_code}] It's up!")
+        elif req.status_code != 200:
+            print(f"[{req.status_code}] It's down!")
+        else:
+            print("Oh wow, an error blocks our way!")
+    except Exception as e:
+        print(f"An error blocks our way: {e}")            
+def randomnumber(start,end):
+    if start < end:
+        print(random.randint(start,end))
+    elif end < start:
+        print(random.randint(end,start))
+    elif end == start:
+        print(start)    
+    else:
+        print("We couldn't get your number!")                           
 def whatismyipv6():
     try:
         req = requests.get("https://api6.ipify.org")
@@ -486,7 +506,17 @@ def parser(arg,username):
                 if len(match) == 2:
                     cp(match[0],match[1])
                 else:
-                    echo("Usage: cp 'source' 'destination'")                                                                                                                                                                                    
+                    echo("Usage: cp 'source' 'destination'")
+            elif "randomnumber" in i and "'randomnumber'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    randomnumber(int(match[0]),int(match[1]))
+                else:
+                    echo("Usage: randomnumber 'number' 'number'")
+            elif "checkhttp" and "'checkhttp'" not in i:
+                match = re.search(r"'([^']+)'",i)
+                if match:
+                    checkhttp(match.group(1))                                                                                                                                                                                                        
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -666,7 +696,17 @@ def parser(arg,username):
             if len(match) == 2:
                 cp(match[0],match[1])
             else:
-                echo("Usage: cp 'source' 'destination'")                                                            
+                echo("Usage: cp 'source' 'destination'")
+        elif "checkhttp" in arg and "'checkhttp'" not in arg:
+            match = re.search(r"'([^']+)'",arg)
+            if match:
+                checkhttp(match.group(1))
+        elif "randomnumber" in arg and "'randomnumber'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                randomnumber(int(match[0]),int(match[1]))
+            else:
+                echo("Usage: randomnumber 'number' 'number'")                                                                                
         else:
             echo("An error occured, undefined command found!") 
        
