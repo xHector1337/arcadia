@@ -12,20 +12,18 @@ import schopenhauer as s
 
 
 users = ["root","hector"]
-def login():
-    attempts = 3
+def login(attempts):
     user = str(input("Enter the username:\t"))
     password = str(input("Enter the password:\t"))
-    while attempts > 0:
-        if user == "root" and password == "root":
-            return "root"
-        elif user == "hector" and password == "hector":
-            return "hector"
-        else:
-            attempts -=1
-            print("Try again!")        
-    print("Bad luck")
-    exit()
+    if attempts == 0:      
+        print("Bad luck")    
+        exit()
+    elif user == "root" and password == "root":
+        return "root"
+    elif user == "hector" and password == "hector":
+        return "hector"
+    else:
+        login((attempts-1))    
 def pwd():
     print(os.getcwd())
 def whatismyipv6():
@@ -58,6 +56,16 @@ def randomword(amount):
     wordGuesser.randomword(amount)    
 def russianroulette():
     ruskiroulette.game()
+def cp(arg,new):
+    try:
+        with open(arg,"r+") as f:
+            data = f.read()
+            with open(new,"w+") as n:
+                n.write(data)
+                n.close()
+            f.close()
+    except Exception as e:
+        print(f"An error occured, {e}")            
 def weather(arg="none"):
     if arg == "none":
         try:
@@ -472,7 +480,13 @@ def parser(arg,username):
                 else:
                     echo("Usage: run 'file'")
             elif "whatismyipv6" in i and "'whatismyipv6'" not in i:
-                whatismyipv6()                                                                                                                                                                         
+                whatismyipv6()
+            elif "cp" in i and "'cp'" not in i:
+                match = re.findall(r"'([^']+)'",i)
+                if len(match) == 2:
+                    cp(match[0],match[1])
+                else:
+                    echo("Usage: cp 'source' 'destination'")                                                                                                                                                                                    
             else:
                 echo("An error occured, undefined command found!")
                 break
@@ -646,13 +660,19 @@ def parser(arg,username):
             else:
                 print("Usage: run 'file'")
         elif "whatismyipv6" in arg and "'whatismyipv6'" not in arg:
-            whatismyipv6()                                                    
+            whatismyipv6()
+        elif "cp" in arg and "'cp'" not in arg:
+            match = re.findall(r"'([^']+)'",arg)
+            if len(match) == 2:
+                cp(match[0],match[1])
+            else:
+                echo("Usage: cp 'source' 'destination'")                                                            
         else:
             echo("An error occured, undefined command found!") 
        
                                                                       
 def terminal():
-    username = login()    
+    username = login(3)    
     user = ""
     while user != "exit":
         user = str(input(f"{username}@arcadia> "))
