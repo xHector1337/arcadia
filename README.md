@@ -2,7 +2,7 @@
 
 Well, you are lucky if you made this! You have found it, The Arcadia! Arcadia means arcade plus “-ia”  - the land of arcade- Arcadia is the best virtual arcade machine you can have. It has its own mini, cute shell which you can run Arcadia commands. Alright, less talk more work. Let’s start with its installation. 
 
-Installing Arcadia 
+# Installing Arcadia 
 
 If you have already installed requests python library, you can skip this part and run Arcadia by cloning or downloading it to your computer! 
 
@@ -10,9 +10,9 @@ You can start with downloading/cloning Arcadia to your computer. You can use thi
 
 `git clone https://github.com/xHector1337/arcadia.git` 
 
-	Open up your command line inside of the arcadia directory and install the requirements by writing `pip install –r requirements.txt` 
+Open up your command line inside of the arcadia directory and install the requirements by writing `pip install –r requirements.txt` 
 
-	Well, we are done! You can run it by typing `python terminal.py` or `python3 terminal.py` 
+Well, we are done! You can run it by typing `python terminal.py` or `python3 terminal.py` 
 
 	 
 
@@ -70,12 +70,57 @@ As soon as we run it, it’ll ask for a username and a password. Well, there are
 
 + b16 ‘text’ ‘method’ --> It does base16 encoding or decoding job for the text you pass as the argument. 
 
- 
++ run ‘file’ --> Runs `.arcadia` files. We’ll talk about scripting with arcadia later. 
+
+## Games 
 
  
 
++ slot --> Runs the slot game. Test your luck! 
+
++ wordguess --> Runs the Word Guesser game. 
+
++ flipcoin --> Flips a coin for you. 
+
++ russianroulette --> Runs the Russian Roulette game. 
+
++ schopenhauer --> Schopenhauer is a smart cat who lives in Arcadia. Interact with him by calling this command, he always finds a way to amaze you! 
+
++ meow --> Prints out a beautiful ascii art. 
+
++ foxsay --> Prints out a beautiful ascii art made by Todd Vargo. 
+
++ randomnumber ‘start’ ‘end’ --> Prints out a random number between the range you give as the arguments. (It includes both endpoints.) 
+
++ randomword ‘amount’ --> Prints out random words as much as you pass as the argument. 
+
++ randomdraw ‘amount’ --> Randomly draws as much as you pass as the argument. 
+
+## Network 
+
++ checkhttp ‘url’ --> Checks if the host is up or down, prints out its state. 
+
++ whatismyip --> Prints out your public ipv4 address by sending a get request to `https://api.ipify.org`. 
+
++ whatismyipv6 --> Prints out your public ipv6 address by sending a get request to `https://api6.ipify.org`. 
+
++ wget ‘url’ ‘output file (optional)’ --> Prints out contents of the url you pass as the argument, if you wish you can save it by passing a filename as the second argument. 
+
  
 
-    
+##Misc 
 
  
+
++ reverse ‘text’ --> Prints out the text you pass as the argument in reverse order. 
+
++ upper ‘text’ --> Prints out the text you pass as the argument in upper case. 
+
++ lower ‘text’ --> Prints out the capitalized text you pass as the argument in lower case. 
+
++ countup ‘start’ ‘end’ --> Counts up to end from start you pass as the arguments and prints out every number. (It includes both endpoints.) 
+
++ countdown ‘start’ ‘end’ --> Counts down to end from start you pass as the arguments and prints out every number. (It includes both endpoints.) 
+
++ weather ‘place (optional)’ --> Prints out the weather of the place you live or the place you pass as the argument by sending a get request to `https://wttr.in/`.
+
