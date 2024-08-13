@@ -130,7 +130,7 @@ As soon as we run it, it’ll ask for a username and a password. Well, there are
 
 # Scripting 
 
-We have learnt commands and we can go on now. Login as your favourite user and create a arcadia script by typing `write ‘script.arcadia’ ‘arcadia’ `. You can name your script as you wish but it must end with `.arcadia` extension, also file content must be starting with `arcadia`. Then, run `catappend  ‘script.arcadia` to see its content and append new lines to the content. Type `\necho ‘hello’\nwhoami` (Yes, you must use **\n** to add a new line.) After that, write `run ‘script.arcadia` to Arcadia and boom! You have written your first Arcadia script! 
+We have learnt commands and we can go on now. Login as your favourite user and create an arcadia script by typing `write ‘script.arcadia’ ‘arcadia’ `. You can name your script as you wish but it must end with `.arcadia` extension, also file content must be starting with `arcadia`. Then, run `catappend  ‘script.arcadia'` to see its content and append new lines to the content. Type `\necho ‘hello’\nwhoami` (Yes, you must use **\n** to add a new line.) After that, write `run ‘script.arcadia` to Arcadia and boom! You have written your first Arcadia script! 
 
 If you are wondering if there is a way other than keep adding new lines for each command, yes there is! This time try running this command; `catappend ‘script.arcadia’`and add this line `\necho ‘we are at:’ && pwd` to the file. Then run the file. Also, you can use the trick on Arcadia’s shell! 
 
