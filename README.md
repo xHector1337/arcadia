@@ -1,3 +1,5 @@
+![Ekran görüntüsü 2024-09-07 170020](https://github.com/user-attachments/assets/f465db7a-bf98-4421-a14c-b22e75a282f3)
+
 # Welcome to The Arcadia, The Land of Fun! 
 
 Well, you are lucky if you made this! You have found it, The Arcadia! Arcadia means arcade plus “-ia”  - the land of arcade- Arcadia is the best virtual arcade machine you can have. It has its own mini, cute shell which you can run Arcadia commands. Alright, less talk more work. Let’s start with its installation. 
